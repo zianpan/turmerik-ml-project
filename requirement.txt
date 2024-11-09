@@ -1,0 +1,8 @@
+praw
+qdm
+torch 
+torchvision
+torchaudio 
+huggingface_hub
+openai
+matplotlib
