@@ -17,8 +17,18 @@ pip install -r requirement.txt
 ```
 3. Prepare the juputer notebook env (it is recommended using VS Code which will handle installing the notebook kernel for you)
 
+4. Export necessary API keys
+```bash
+export OPENAI_API_KEY=<YOUR API KEY>
+```
+or you can paste your openai api key in the personalized-recommendation notebook.
+
+5. Run the notebook
+    Please create a script app on reddit to obtain relavant information and replace all the credentials in reddit-scrape.ipynb if you want to run web crawler script.
+    Make sure you obtain the right credentials from both reddit and openai and put them in the notebok
+
+
 # Discussion
-#### Methodology
 1. **Data scraping from reddit**
     As recommended in the requirement, I use praw to scrape reddit website. One challenge is what to scrape and where to scrape and I actually have not used reddit before. So I checked reddit website and found that reddit works based on different subreddits, which resemble different community. To search for related posts, I identify several possible subreddits that might contain comments related to clincal trials. Here is the list(This can be further extened as needed):
     ```python
@@ -66,11 +76,23 @@ pip install -r requirement.txt
 3. **Personalized Recommendation**
     In this part, I mainly adopt gpt-4o-mini to do the task. Specifically I try to use two strategies. One is level-based, which I tell gpt the information from the user (level of interest, original of the comment). The prompting style is shown in the notebook. I sampled 30 case from the dataset and test on it. The example output looks friendly, careful and professional. Another approach I use is precise recommendation, where I want to let gpt determine the level of interest from the users. However, this fails because 4o along with the example I provide might not be enough to determine the level of intention in terms of clinical trial.
 
-4. Ethical Concerns and Reflection
+4. **Ethical Concerns and Reflection**
+    1. Data Scraping
+        Since Reddit data includes sensitive discussions, ethical scraping is crucial. Here, I do scrape the userid from Reddit for the sake of personalized recommendations. However, we should always be aware of the potential data privacy issue and remove that from our scraping script.
+        
+        <br>
+        Further, Reddit is a public platform, but it’s still best practice to inform users in any subsequent reporting that the data collected is public and gathered according to ethical standards. Thus, we may add a description saying how we utilized their data at the end of the personal recommendation message in the future.
 
-
-
+    2. Bias in Sentiment Analysis and Recommendation
+        Pre-trained models can carry biases, especially regarding sentiment or assumptions about medical preferences. Therefore, if possible, we should fine-tune the model to achieve better performance if we have access to better dataset. 
     
+    3. Personalized Recommendation
+        It is still unclear why precise recommendation fails: prompting methods, unrelated comments, noisy data... These hasn't been investigated due to the time constraint. Also, current method of using level-based recommendation might not be too ideal since the way it divides the group might introduce extra bias and is arbitary. More sophisticated methods should be further investiagated, leveraging the power of llm.
+
+
+
+
+        
 
 
 
